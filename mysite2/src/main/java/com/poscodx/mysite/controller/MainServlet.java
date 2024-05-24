@@ -14,15 +14,7 @@ public class MainServlet extends HttpServlet {
 		request
 			.getRequestDispatcher("/WEB-INF/views/main/index.jsp")
 			.forward(request,response);
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 	}
 
 	
