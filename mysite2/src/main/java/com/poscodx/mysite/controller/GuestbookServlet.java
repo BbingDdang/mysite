@@ -1,65 +1,25 @@
 package com.poscodx.mysite.controller;
 
-import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.poscodx.mysite.dao.GuestbookDao;
-import com.poscodx.mysite.vo.GuestbookVo;
+import com.poscodx.mysite.controller.action.guestbook.AddAction;
+import com.poscodx.mysite.controller.action.guestbook.DeleteAction;
+import com.poscodx.mysite.controller.action.guestbook.DeleteFormAction;
+import com.poscodx.mysite.controller.action.main.GuestbookMainAction;
 
 
-public class GuestbookServlet extends HttpServlet {
+public class GuestbookServlet extends ActionServlet {
 	private static final long serialVersionUID = 1L;
 
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		String action = request.getParameter("a");
+	private Map<String, Action> mapAction = Map.of(
+			"add", new AddAction(),
+			"delete", new DeleteAction(),
+			"deleteform", new DeleteFormAction()
+		);
 		
-		if ("add".equals(action)) {
-			String name = request.getParameter("name");
-			String password = request.getParameter("password");
-			String contents = request.getParameter("content");
-			
-			GuestbookVo vo = new GuestbookVo();
-
-			vo.setName(name);
-			vo.setPassword(password);
-			vo.setContents(contents);
-			
-			new GuestbookDao().insert(vo);
-			
-			response.sendRedirect(request.getContextPath() + "/guestbook");
+		@Override
+		protected Action getAction(String actionName) {
+			return mapAction.getOrDefault(actionName, new GuestbookMainAction());
 		}
-		else if ("deleteform".equals(action)) {
-			request
-				.getRequestDispatcher("/WEB-INF/views/guestbook/deleteform.jsp")
-				.forward(request, response);
-		}
-		else if ("delete".equals(action)) {
-			String no = request.getParameter("no");
-			String password = request.getParameter("password");
-			Long num = Long.parseLong(no);
-			
-			new GuestbookDao().deleteByNoAndPassword(num, password);
-
-			response.sendRedirect(request.getContextPath() + "/guestbook");
-		}
-		else {
-			List<GuestbookVo> list = new GuestbookDao().findAll();
-			request.setAttribute("list", list);
-			request
-				.getRequestDispatcher("/WEB-INF/views/guestbook/list.jsp")
-				.forward(request, response);
-		}
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
-	}
-
+		
 }
