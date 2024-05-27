@@ -40,7 +40,7 @@ public class UserDao {
 				pstmt1.setString(3, vo.getPassword());
 				pstmt1.setString(4, vo.getGender());
 				result = pstmt1.executeUpdate();
-				System.out.println(vo);
+				
 				ResultSet rs = pstmt2.executeQuery();
 				vo.setNo(rs.next() ? rs.getLong(1) : null);
 				rs.close();
@@ -51,8 +51,37 @@ public class UserDao {
 		
 		return result;
 	}
+	
+	public int update(UserVo vo) {
+		int result = 0;
+		
+		try (
+				Connection conn = getConnection();
+				PreparedStatement pstmt1 = conn.prepareStatement("update user set name = ?, gender = ? where no = ?");
+				PreparedStatement pstmt2 = conn.prepareStatement("update user set name = ?, password = password(?), gender = ? where no = ?");
+				) {
+				if("".equals(vo.getPassword())) {
+					pstmt1.setString(1, vo.getName());
+					pstmt1.setString(2, vo.getGender());
+					pstmt1.setLong(3, vo.getNo());
+					result = pstmt1.executeUpdate();
+				}
+				else {
+					pstmt2.setString(1, vo.getName());
+					pstmt2.setString(2, vo.getPassword());
+					pstmt2.setString(3, vo.getGender());
+					pstmt2.setLong(4, vo.getNo());
+					result = pstmt2.executeUpdate();
+				}
+				
+		}
+		catch (SQLException e) {
+			System.out.println();
+		}
+		return result;
+	}
 
-	public UserVo findByNoAndPassword(String email, String password) {
+	public UserVo findByEmailAndPassword(String email, String password) {
 		UserVo result = null;
 		
 		try (
@@ -80,4 +109,42 @@ public class UserDao {
 		
 		return result;
 	}
+
+	public UserVo findByNo(Long no) {
+		UserVo result = null;
+		
+		try (
+				Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement("select name, email, password, gender from user where no = ?");
+				) {
+			
+				pstmt.setLong(1, no);
+				
+				
+				ResultSet rs = pstmt.executeQuery();
+				if (rs.next()) {
+					//Long no1 = rs.getLong(1);
+					String name = rs.getString(1);
+					String email = rs.getString(2);
+					String password = rs.getString(3);
+					String gender = rs.getString(4);
+					
+					result = new UserVo();
+				
+					result.setName(name);
+					result.setEmail(email);
+					result.setPassword(password);
+					result.setGender(gender);
+					
+				}
+				rs.close();
+	
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+		
+		return result;
+	}
+
+	
 }
