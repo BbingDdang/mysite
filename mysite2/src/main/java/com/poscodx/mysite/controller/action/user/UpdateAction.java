@@ -40,7 +40,7 @@ public class UpdateAction implements Action {
 		
 		new UserDao().update(vo);
 		authUser.setName(name);
-		response.sendRedirect(request.getContextPath() + "/user?a=updateform");
+		response.sendRedirect(request.getContextPath() + "/user?a=updateform&result=success");
 	}
 
 }
