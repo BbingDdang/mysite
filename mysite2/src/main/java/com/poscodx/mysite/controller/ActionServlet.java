@@ -13,6 +13,7 @@ public abstract class ActionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected abstract Action getAction(String actionName);
 	
+	
 //	public void m(Optional<String> p) {
 //		// p값에 절대 null이 세팅될 수 없음.
 //		
@@ -22,7 +23,6 @@ public abstract class ActionServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		// 널 객체지향적 처리 
 		String actionName = Optional.ofNullable(request.getParameter("a")).orElse("");
-		
 		Action action = getAction(actionName);
 		if (action == null) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
@@ -30,6 +30,8 @@ public abstract class ActionServlet extends HttpServlet {
 		
 		action.execute(request, response);
 	}
+
+	
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{

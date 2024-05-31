@@ -40,8 +40,8 @@
 						<table>
 							<tr>
 								<td>[${fn:length(list) - status.index}]</td>
-								<td>${vo.name}</td>
-								<td>${vo.reg_time}</td>
+								<td>${fn:replace(fn:replace(vo.name, ">", "&gt;"), "<", "&lt;")}</td>
+								<td>${fn:replace(fn:replace(vo.reg_time, ">", "&gt;"), "<", "&lt;")}</td>
 								<td><a href="${pageContext.request.contextPath}/guestbook?a=deleteform&no=${vo.no}">삭제</a></td>
 							</tr>
 							<tr>
