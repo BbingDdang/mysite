@@ -42,6 +42,7 @@ public class BoardMainAction implements Action {
 		}
 		else {
 			
+			
 			BoardDao boardDao = new BoardDao();
 			Long totalPage = boardDao.getTotalPageCountByKeyword(keyword);
 			Long currentPage = (request.getParameter("p") != null) ? Long.parseLong(request.getParameter("p")) : 1;
