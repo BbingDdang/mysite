@@ -31,7 +31,7 @@
 					</tr>	
 					<c:forEach var="vo" items="${list}" varStatus="status">
 					    <tr>
-					        <td>[${fn:length(list) - status.index}]</td>
+					        <td>${vo.no}</td>
 					        <c:choose>
 					            <c:when test="${vo.depth == 0}">
 					                <td style="text-align:Left; padding-left:${20 * vo.depth}px">
