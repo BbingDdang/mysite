@@ -37,7 +37,7 @@ public class ReplyAction implements Action {
 		String contents = request.getParameter("content");
 		
 		BoardDao boardDao = new BoardDao();
-		BoardVo vo = new BoardVo();
+		BoardVo vo;
 		
 		List<BoardVo> list = boardDao.findGnoOnoDepthByNo(num);
 		
