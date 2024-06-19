@@ -83,7 +83,7 @@ public class MvcConfig implements WebMvcConfigurer {
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		// 순서 중요
 		registry
-		.addResourceHandler("/assets") 	 
+		.addResourceHandler("/assets/**") 	 
 		.addResourceLocations("classpath:assets/"); 
 	
 	}	
