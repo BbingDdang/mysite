@@ -37,7 +37,6 @@ public class MySiteWebApplicationInitializer extends AbstractAnnotationConfigDis
 	protected FrameworkServlet createDispatcherServlet(WebApplicationContext servletAppContext) {
 		DispatcherServlet servlet = (DispatcherServlet)super.createDispatcherServlet(servletAppContext);
 		servlet.setThrowExceptionIfNoHandlerFound(true);
-		
 		return servlet;
 	}
 }

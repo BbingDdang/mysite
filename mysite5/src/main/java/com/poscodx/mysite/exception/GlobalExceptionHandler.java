@@ -47,46 +47,56 @@ public class GlobalExceptionHandler {
 			os.write(jsonString.getBytes("utf-8"));
 			os.close();
 		} else {
-			//4. 사과 페이지(정상종료)
-			request.setAttribute("error", errors.toString());
-			request
-				.getRequestDispatcher("/WEB-INF/views/errors/exception")
-				.forward(request, response);
+			if (e instanceof NoHandlerFoundException) {
+				request.setAttribute("error", errors.toString());
+				request
+					.getRequestDispatcher("/WEB-INF/views/errors/404.jsp")
+					.forward(request, response);
+				return;
+			}
+			else {
+				//4. 사과 페이지(정상종료)
+				request.setAttribute("error", errors.toString());
+				request
+					.getRequestDispatcher("/WEB-INF/views/errors/exception.jsp")
+					.forward(request, response);
+			}
+			
 		}
 	}
 	
-	@ExceptionHandler(NoHandlerFoundException.class)
-	public void handleNoHandlerFoundException(
-		HttpServletRequest request,
-		HttpServletResponse response,
-		NoHandlerFoundException e
-	) throws Exception {
-		//1. 로깅(logging)
-		StringWriter errors = new StringWriter();
-		e.printStackTrace(new PrintWriter(errors));
-		logger.error(errors.toString());
-
-		//2. 요청구분
-		// json 요청: request header에 application/json (o)
-		// html 요청: request header에 application/json (x)
-		String accept = request.getHeader("accept");
-		
-		if(accept.matches(".*application/json.*")) {
-			//3. json 응답
-			JsonResult jsonResult = JsonResult.fail("No handler found for " + e.getHttpMethod() + " " + e.getRequestURL());
-			String jsonString = new ObjectMapper().writeValueAsString(jsonResult);
-			
-			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			response.setContentType("application/json; charset=utf-8");
-			OutputStream os = response.getOutputStream();
-			os.write(jsonString.getBytes("utf-8"));
-			os.close();
-		} else {
-			//4. 사과 페이지(정상종료)
-			request.setAttribute("error", "No handler found for " + e.getHttpMethod() + " " + e.getRequestURL());
-			request
-				.getRequestDispatcher("/WEB-INF/views/errors/404.jsp")
-				.forward(request, response);
-		}
-	}
+//	@ExceptionHandler(NoHandlerFoundException.class)
+//	public void handleNoHandlerFoundException(
+//		HttpServletRequest request,
+//		HttpServletResponse response,
+//		NoHandlerFoundException e
+//	) throws Exception {
+//		//1. 로깅(logging)
+//		StringWriter errors = new StringWriter();
+//		e.printStackTrace(new PrintWriter(errors));
+//		logger.error(errors.toString());
+//
+//		//2. 요청구분
+//		// json 요청: request header에 application/json (o)
+//		// html 요청: request header에 application/json (x)
+//		String accept = request.getHeader("accept");
+//		
+//		if(accept.matches(".*application/json.*")) {
+//			//3. json 응답
+//			JsonResult jsonResult = JsonResult.fail("No handler found for " + e.getHttpMethod() + " " + e.getRequestURL());
+//			String jsonString = new ObjectMapper().writeValueAsString(jsonResult);
+//			
+//			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+//			response.setContentType("application/json; charset=utf-8");
+//			OutputStream os = response.getOutputStream();
+//			os.write(jsonString.getBytes("utf-8"));
+//			os.close();
+//		} else {
+//			//4. 사과 페이지(정상종료)
+//			request.setAttribute("error", "No handler found for " + e.getHttpMethod() + " " + e.getRequestURL());
+//			request
+//				.getRequestDispatcher("/WEB-INF/views/errors/404.jsp")
+//				.forward(request, response);
+//		}
+//	}
 }
