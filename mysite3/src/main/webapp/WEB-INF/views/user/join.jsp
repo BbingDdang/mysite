@@ -68,8 +68,9 @@ $(function() {
 						<spring:hasBindErrors name="userVo">
 							<c:if test='${errors.hasFieldErrors("name") }'>
 								<%-- ${errors.getFieldError("name").defaultMessage } --%>
+								<spring:message code = "${errors.getFieldError('name').codes[0] }"/>
 							</c:if>
-							<spring:message code = "${errors.getFieldError('name').codes[0] }"/>
+							
 						</spring:hasBindErrors>
 					</p>
 					<label class="block-label" for="email">이메일</label>
