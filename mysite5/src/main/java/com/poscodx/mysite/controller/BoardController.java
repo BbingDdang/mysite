@@ -42,13 +42,12 @@ public class BoardController {
 		return "board/list";
 	}
 	
-	@Auth
 	@GetMapping("/add")
 	public String add() {
 		return "board/write";
 	}
 	
-	@Auth // access control을 이제 @auth가 함. 하지만 UserVo authUser = (UserVo)session.getAttribute("authUser")를 계속 써야하는 경우도 있음.
+	// access control을 이제 @auth가 함. 하지만 UserVo authUser = (UserVo)session.getAttribute("authUser")를 계속 써야하는 경우도 있음.
 	@PostMapping("/add")
 	public String add(HttpSession session, BoardVo vo, @RequestParam(value = "no", required=false) Long parentNo) {
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
@@ -64,7 +63,6 @@ public class BoardController {
 		return "redirect:/board";
 	}
 	
-	@Auth
 	@GetMapping("/delete")
 	public String delete(HttpSession session, @RequestParam(value = "no") Long no) { 
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
@@ -76,13 +74,11 @@ public class BoardController {
 		return "redirect:/board";
 	}
 	
-	@Auth
 	@GetMapping("/modify/{no}")
 	public String modify(@PathVariable("no") Long no) {
 		return "board/modify";
 	}
 	
-	@Auth
 	@PostMapping("/modify/{no}")
 	public String modify(HttpSession session, @PathVariable("no") Long no, BoardVo vo) {
 		// (@AuthUser UserVo authUser) 를 사용하여 아래 세줄의 코드를 지울 수 있음. (argument resolver)
@@ -95,7 +91,6 @@ public class BoardController {
 		
 	}
 	
-	@Auth
 	@GetMapping("/reply")
 	public String reply(@RequestParam(value = "no") Long parentNo, Model model) {
 		model.addAttribute("no", parentNo);

@@ -40,20 +40,33 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     	String ssc = HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
        	http
+       		.logout()
+       		.logoutUrl("/user/logout")
+       		.and()
+       		
        		.formLogin()
        		.loginPage("/user/login")
        		.loginProcessingUrl("/user/auth")
        		.usernameParameter("email")
        		.passwordParameter("password")
        		.defaultSuccessUrl("/")
-       		.failureUrl("/user/login")
+       		.failureUrl("/user/login?result=fail")
        		.and()
+       		
+       		.csrf()
+       		.disable()
        		
        		.authorizeHttpRequests(registry -> {
        			/* ACL */
        			registry
-       				.requestMatchers(new RegexRequestMatcher("^/user/update$", null))
-       				.hasAnyRole("ADMIN", "USER")
+       				.requestMatchers(new RegexRequestMatcher("^/admin/?.*$", null))
+					.hasRole("ADMIN")
+
+					.requestMatchers(new RegexRequestMatcher("^/board/?(write|reply|delete|modify)?/.*$", null))
+					.hasAnyRole("ADMIN", "USER")
+
+					.requestMatchers(new RegexRequestMatcher("^/user/update$", null))
+					.hasAnyRole("ADMIN", "USER")
        				
        				.anyRequest()
        				.permitAll();

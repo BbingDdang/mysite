@@ -28,7 +28,6 @@ import com.poscodx.mysite.vo.UserVo;
 
 
 @Controller
-@Auth(role="ADMIN")
 @RequestMapping("/admin")
 public class AdminController {
 
