@@ -49,17 +49,23 @@ public class GlobalExceptionHandler {
 		} else {
 			if (e instanceof NoHandlerFoundException) {
 				request.setAttribute("error", errors.toString());
+//				request
+//					.getRequestDispatcher("/WEB-INF/views/errors/404.jsp")
+//					.forward(request, response);
 				request
-					.getRequestDispatcher("/WEB-INF/views/errors/404.jsp")
+					.getRequestDispatcher("/error/404")
 					.forward(request, response);
 				return;
 			}
 			else {
 				//4. 사과 페이지(정상종료)
 				request.setAttribute("error", errors.toString());
+//				request
+//					.getRequestDispatcher("/WEB-INF/views/errors/exception.jsp")
+//					.forward(request, response);
 				request
-					.getRequestDispatcher("/WEB-INF/views/errors/exception.jsp")
-					.forward(request, response);
+				.getRequestDispatcher("/error/500")
+				.forward(request, response);
 			}
 			
 		}

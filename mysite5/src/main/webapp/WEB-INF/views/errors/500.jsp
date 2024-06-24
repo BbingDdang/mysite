@@ -7,9 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>500 Internal Server Error</h1>
-	<p>
-		Internal Server Error
-	</p>
+	<h1>Exception Handler : Spring</h1>
+	<hr>
+	<pre style="color: #ff1000">
+${error }
+	</pre>
 </body>
 </html>
