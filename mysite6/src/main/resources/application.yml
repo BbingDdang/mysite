@@ -16,6 +16,7 @@ spring:
    #mvc      
    mvc:
       static-path-pattern: /assets/**
+      throw-exception-if-no-handler-found: true
       #view:
       #   prefix: /WEB-INF/views/
       #   suffix: .jsp
@@ -36,7 +37,7 @@ spring:
    #multipart
    servlet:
       multipart:
-         enables: true
+         enabled: true
          max-file-size: 50MB
          max-request-size: 10MB
    
@@ -57,12 +58,16 @@ mybatis:
       
 # server configuration
 server:
-   port: 8080
+   port: 8088
    servlet:
       context-path: /mysite6
       encoding:
          charset: utf-8
          enabled: true
+   error: 
+      whitelabel:
+         enabled: false
+      path: /error
          
 #loggin
 logging:

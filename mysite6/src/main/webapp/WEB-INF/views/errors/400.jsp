@@ -7,10 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>Exception Handler : Spring</h1>
-	<hr>
-	<pre style="color: #ff1000">
-${error }
-	</pre>
+	<h1>Bad Request(500) : Custom</h1>
+	<p>
+		잘못된 요청 입니다.
+	</p>
 </body>
 </html>

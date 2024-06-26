@@ -7,9 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>404 Not Found</h1>
+	<h1>Internal Server Error(500) : Custom</h1>
 	<p>
-		Not Found
+		내부 서버 오류입니다. 
 	</p>
 </body>
 </html>
