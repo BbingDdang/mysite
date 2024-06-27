@@ -44,7 +44,7 @@ public class UserRepository {
 //		return sqlSession.selectOne("user.findByEmail2", email);
 //	}
 	public <R> R findByEmail(String email, Class<R> resultType) {
-		FindByEmailResultHandler<R> findByEmailResultHandler = new FindByEmailResultHandler();
+		FindByEmailResultHandler<R> findByEmailResultHandler = new FindByEmailResultHandler<R>(resultType);
 		sqlSession.select("user.findByEmail", email, findByEmailResultHandler);		
 		return findByEmailResultHandler.result;
 	}
@@ -57,6 +57,10 @@ public class UserRepository {
 
 		private R result;
 		private Class<R> resultType;
+		
+		FindByEmailResultHandler(Class<R> resultType) {
+			this.resultType = resultType;
+		}
 		
 		@Override
 		public void handleResult(ResultContext<? extends Map<String, Object>> resultContext) {

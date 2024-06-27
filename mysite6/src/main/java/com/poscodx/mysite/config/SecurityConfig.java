@@ -6,8 +6,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -27,7 +27,7 @@ import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 
 import com.poscodx.mysite.security.UserDetailsServiceImpl;
 
-@Configuration
+@SpringBootConfiguration
 @EnableWebSecurity
 public class SecurityConfig {
 	@Bean
@@ -37,6 +37,7 @@ public class SecurityConfig {
             public void customize(WebSecurity web) {
                 web
             		.ignoring()
+            		.requestMatchers(new AntPathRequestMatcher("/favicon.ico"))
             		.requestMatchers(new AntPathRequestMatcher("/assets/**"));
             }
         };
@@ -50,6 +51,7 @@ public class SecurityConfig {
        	http
        		.logout()
        		.logoutUrl("/user/logout")
+       		.logoutSuccessUrl("/")
        		.and()
        		
        		.formLogin()
@@ -64,6 +66,7 @@ public class SecurityConfig {
 				@Override
 				public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 						AuthenticationException exception) throws IOException, ServletException {
+					System.out.println("login fail");
 					request.setAttribute("email", request.getParameter("email"));
 					request
 						.getRequestDispatcher("/user/login")

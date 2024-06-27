@@ -26,11 +26,11 @@ public class SiteInterceptor implements HandlerInterceptor {
 			request.getServletContext().setAttribute("sitevo", siteVo);
 		}
 		
+		//Locale
 		
 		System.out.println("resolever-locale : " + localeResolver.resolveLocale(request).getLanguage());
 		request.setAttribute("language", localeResolver.resolveLocale(request).getLanguage());
 		
-		//Locale
 		
 		return true;
 	}
